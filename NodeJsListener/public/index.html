@@ -8,13 +8,11 @@
     Pusher.logToConsole = true;
 
 
-    var printerUUID = 'my-channel'
+    var printerUUID = '98c3f659-ba89-42f4-b349-7a82acb838cc'
 
     var pusher = new Pusher('577bfc022b916040dc45', {
       cluster: 'eu'
     });
-
-
 
     var channel = pusher.subscribe(printerUUID);
     channel.bind('my-event', function(data) {

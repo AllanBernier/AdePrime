@@ -10,8 +10,9 @@ use Tests\TestCase; //this
 use Illuminate\Http\UploadedFile;
 
 
-test("Je peut poster des fichiers et ajouter à une imprimante", function () {
-        Storage::fake('/file');
+test("Jimprimante", function () {
+
+        Storage::fake();
     
         $printer = Printer::factory()->create();
         $file = UploadedFile::fake()->image('avatar.jpg');

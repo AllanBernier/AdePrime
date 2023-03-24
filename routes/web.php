@@ -23,8 +23,8 @@ Route::get('/', function () {
 });
 
 
-Route::post('/document', [DocumentController::class, 'store'])->name('document.store');
-Route::get('/document/{document_id}', [DocumentController::class, 'show'])->name('document.show');
+Route::post('/store/document/{printer}', [DocumentController::class, 'store'])->name('document.store');
+Route::get('/document/{document}', [DocumentController::class, 'show'])->name('document.show');
 
 Route::get('/printer', [PrinterController::class, 'index'])->name('printer.index');
 Route::post('/printer', [PrinterController::class, 'store'])->name('printer.store');

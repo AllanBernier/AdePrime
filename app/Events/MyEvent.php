@@ -15,9 +15,9 @@ class MyEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $url;
-    public $printer;
+    public Printer $printer;
 
-    public function __construct($url, $printer)
+    public function __construct($url,Printer $printer)
     {
         $this->url = $url;
         $this->printer = $printer;
@@ -25,7 +25,7 @@ class MyEvent implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
-        return ['my-channel'];
+        return [$this->printer->id];
     }
 
     public function broadcastAs()

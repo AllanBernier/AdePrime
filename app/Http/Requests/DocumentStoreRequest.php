@@ -16,7 +16,6 @@ class DocumentStoreRequest extends FormRequest
     {
         return [
             'file' => 'required',
-            'printer' => 'required'
         ];
     }
 }

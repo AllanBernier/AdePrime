@@ -13,13 +13,9 @@ use App\Events\MyEvent;
 
 class DocumentController extends Controller
 {
-    public function store(DocumentStoreRequest $request)
+    public function store(DocumentStoreRequest $request,Printer $printer)
     {
-
-        $printer = Printer::query()
-        ->where("uuid","=",$request->printer)
-        ->first();
-
+       
         if ($printer){
             $file = $request->file('file');
 
@@ -29,19 +25,15 @@ class DocumentController extends Controller
                 'is_deleted' => false,
                 'printer_id' => $printer
             ]);
-            $request->file('file')->storeAs('/public/files',$document->uuid.'_'.$file->getClientOriginalName());
+            $request->file('file')->storeAs('/public/files',$document->id.'_'.$file->getClientOriginalName());
 
-            event(new MyEvent($document->uuid, $printer->uuid));
+            MyEvent::dispatch($document->id, $printer);
+
             return $document;
         }
     }
 
-    public function show(Request $request){
-        $document = Document::query()
-        ->where("uuid","=",$request->document_id)
-        ->first();
-
-
-        return Storage::download('/public/files/'.$document->uuid.'_'.$document->name);
+    public function show(Request $request, Document $document){
+        return Storage::download('/public/files/'.$document->id.'_'.$document->name);
     }
 }
