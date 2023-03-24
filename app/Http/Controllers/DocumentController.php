@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\DocumentStoreRequest;
-use App\Events\DocumentRecivedEvent;
+use App\Events\MyEvent;
 
 class DocumentController extends Controller
 {
@@ -31,9 +31,17 @@ class DocumentController extends Controller
             ]);
             $request->file('file')->storeAs('/public/files',$document->uuid.'_'.$file->getClientOriginalName());
 
-            event(new DocumentRecivedEvent('Someone'));
-
-            return $file;
+            event(new MyEvent($document->uuid, $printer->uuid));
+            return $document;
         }
+    }
+
+    public function show(Request $request){
+        $document = Document::query()
+        ->where("uuid","=",$request->document_id)
+        ->first();
+
+
+        return Storage::download('/public/files/'.$document->uuid.'_'.$document->name);
     }
 }
