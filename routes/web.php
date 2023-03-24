@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\PrinterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +14,16 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/token', function () {
+    return csrf_token(); 
+});
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::post('/document', [DocumentController::class, 'store'])->name('document.store');
+
+Route::get('/printer', [PrinterController::class, 'index'])->name('printer.index');
+Route::post('/printer', [PrinterController::class, 'store'])->name('printer.store');
